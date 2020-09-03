@@ -1,34 +1,79 @@
-// Copyright 2018-present the Flutter authors. All Rights Reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import 'model/products_repository.dart';
+import 'model/product.dart';
 
 class HomePage extends StatelessWidget {
-  // TODO: Make a collection of cards (102)
-  // TODO: Add a variable for Category (104)
+  List<Card> _buildGridCards(int count) {
+    List<Card> cards = List.generate(
+      count,
+      (index) => Card(
+        elevation: 10,
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            AspectRatio(
+              aspectRatio: 18 / 11,
+              child: Image.asset('assets/diamond.png'),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(16, 12, 16, 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Title'),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text('Secondary Text')
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+    return cards;
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: Return an AsymmetricView (104)
-    // TODO: Pass Category variable to AsymmetricView (104)
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      // TODO: Add app bar (102)
-      // TODO: Add a grid view (102)
-      body: Center(
-        child: Text('You did it!'),
+      appBar: AppBar(
+        title: Text('SHIRINE'),
+        leading: IconButton(
+          icon: Icon(
+            Icons.menu,
+            semanticLabel: 'menu',
+          ),
+          onPressed: () => print('Menu Clicked'),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.search,
+              semanticLabel: 'search',
+            ),
+            onPressed: () => print('Search Clicked'),
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.tune,
+              semanticLabel: 'filter',
+            ),
+            onPressed: () => print('FIlter Clicked'),
+          )
+        ],
       ),
-      // TODO: Set resizeToAvoidBottomInset (101)
+      body: GridView.count(
+        crossAxisCount: 2,
+        padding: EdgeInsets.all(16),
+        childAspectRatio: 8 / 9,
+        children: _buildGridCards(10),
+      ),
     );
   }
 }

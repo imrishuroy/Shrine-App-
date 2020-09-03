@@ -34,7 +34,9 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: 80.0),
             Column(
               children: <Widget>[
-                Image.asset('assets/diamond.png'),
+                // Image.asset('assets/diamond.png'),
+                Image.network(
+                    'https://img.icons8.com/plasticine/2x/diamond.png'),
                 SizedBox(height: 16.0),
                 Text('SHRINE'),
               ],
