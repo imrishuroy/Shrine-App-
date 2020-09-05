@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:Shrine/colors.dart';
 import 'package:flutter/material.dart';
+import 'supplemental/cut_corners_border.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -20,9 +22,26 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // TODO: Add text editing controllers (101)
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _unfocusedColor = Colors.grey[600];
+  final _usernameFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _usernameFocusNode.addListener(() {
+      setState(() {
+        //Redraw so that the username label reflects the focus state
+      });
+    });
+    _passwordFocusNode.addListener(() {
+      setState(() {
+        //Redraw so that the password label reflects the focus state
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,19 +54,37 @@ class _LoginPageState extends State<LoginPage> {
             Column(
               children: <Widget>[
                 // Image.asset('assets/diamond.png'),
-                Image.network(
-                    'https://img.icons8.com/plasticine/2x/diamond.png'),
+                Image.asset(
+                  'assets/diamond.png',
+                  color: kShrineBlack,
+                ),
+
                 SizedBox(height: 16.0),
-                Text('SHRINE'),
+                Text(
+                  'SHRINE',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
               ],
             ),
             SizedBox(height: 120.0),
             TextField(
               controller: _usernameController,
               decoration: InputDecoration(
-                filled: true,
+                focusedBorder: CutCornersBorder(
+                  borderSide: BorderSide(
+                    width: 2.0,
+                    color: kShrineBrown900,
+                  ),
+                ),
+                // filled: true,
+                border: CutCornersBorder(),
                 labelText: 'UserName',
+                labelStyle: TextStyle(
+                    color: _usernameFocusNode.hasFocus
+                        ? Theme.of(context).accentColor
+                        : _unfocusedColor),
               ),
+              focusNode: _usernameFocusNode,
             ),
             SizedBox(
               height: 18,
@@ -55,10 +92,22 @@ class _LoginPageState extends State<LoginPage> {
             TextField(
               controller: _passwordController,
               decoration: InputDecoration(
-                filled: true,
+                focusedBorder: CutCornersBorder(
+                  borderSide: BorderSide(
+                    width: 2.0,
+                    color: kShrineBrown900,
+                  ),
+                ),
+                border: CutCornersBorder(),
+                // filled: true,
                 labelText: 'PassWord',
+                labelStyle: TextStyle(
+                    color: _passwordFocusNode.hasFocus
+                        ? Theme.of(context).accentColor
+                        : _unfocusedColor),
               ),
               obscureText: true,
+              focusNode: _passwordFocusNode,
             ),
             SizedBox(
               height: 10,
@@ -67,6 +116,11 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 FlatButton(
                   child: Text('Cancel'),
+                  shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(7.0),
+                    ),
+                  ),
                   onPressed: () {
                     _usernameController.clear();
                     _passwordController.clear();
@@ -74,6 +128,10 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 RaisedButton(
                   child: Text('Next'),
+                  elevation: 8.0,
+                  shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(7.0)),
+                  ),
                   onPressed: () {
                     Navigator.pop(context);
                   },
